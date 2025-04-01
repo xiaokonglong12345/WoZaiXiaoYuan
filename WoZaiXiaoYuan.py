@@ -100,7 +100,6 @@ def Login(headers, username, password):
         print(f"{username}登陆失败，请检查账号密码！")
         return False
 
-
 def testLoginStatus(headers, jws):
     # 用任意需要鉴权的接口即可，这里随便选了一个
     url = "https://gw.wozaixiaoyuan.com/health/mobile/health/getBatch"
@@ -228,7 +227,7 @@ def GetPunchData(username, location, tencentKey, dataJson):
 
 
 # 获取我的日志
-def GetMySignLogs(headers):
+def GetMySignLogs(headers, school_area):
     url = 'https://gw.wozaixiaoyuan.com/sign/mobile/receive/getMySignLogs'
     params = {
         'page': 1,
@@ -238,10 +237,10 @@ def GetMySignLogs(headers):
     if int(data['signStatus']) != 1:
         print("用户已打过卡！")
         return False, False, False
-    signId, userArea, id, areaData = data['signId'], data['userArea'], data['id'], data['areaList']
+    signId, id, areaData = data['signId'], data['id'], data['areaList']
     for _ in areaData:
-        if userArea == _['name']:
-            dataStr = _['dataStr'] if ('dataStr' in _) else ''
+        if school_area == _['name']:
+            dataStr = _['dataStr'] # if ('dataStr' in _) else ''
             dataJson = {
                 "type": 1,
                 "polygon": dataStr,
@@ -253,7 +252,7 @@ def GetMySignLogs(headers):
 
 
 def Punch(headers, punchData, username, id, signId, receive=False, sct_ftqq=False):
-    headers['Referer'] = 'https://servicewechat.com/wxce6d08f781975d91/200/page-frame.html'
+    headers['Referer'] = 'https://servicewechat.com/wxce6d08f781975d91/203/page-frame.html'
     url = 'https://gw.wozaixiaoyuan.com/sign/mobile/receive/doSignByArea'
     params = {
         'id': id,
@@ -362,12 +361,12 @@ def main():
             'Sec-Fetch-Site': 'same-origin',
             'Sec-Fetch-Mode': 'cors',
             'Sec-Fetch-Dest': 'empty',
-            'Referer': 'https://gw.wozaixiaoyuan.com/h5/mobile/health/0.3.7/health',
+            'Referer': 'https://gw.wozaixiaoyuan.com/h5/mobile/sign/index/message',
             'Accept-Encoding': 'gzip, deflate',
             'Accept-Language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7'
         }
         if config['dorm_sign']:
-            signId, id, dataJson = GetMySignLogs(headers)
+            signId, id, dataJson = GetMySignLogs(headers,config['school_area'])
             if not signId:
                 continue
             punchData = GetPunchData(username, config['location'], tencentKey, dataJson)
