@@ -64,7 +64,7 @@ jobs:
         tencentKey: ${{secrets.tencentKey}}
       run: python actionVersion.py
 
-    User03:
+  User03:
     runs-on: ubuntu-latest
     environment: CONFIG_03
     steps:
