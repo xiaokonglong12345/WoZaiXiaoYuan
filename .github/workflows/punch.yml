@@ -63,7 +63,7 @@ jobs:
         blue_sign: ${{secrets.blue_sign}}
         tencentKey: ${{secrets.tencentKey}}
       run: python actionVersion.py
-
+      
   User03:
     runs-on: ubuntu-latest
     environment: CONFIG_03
@@ -92,3 +92,4 @@ jobs:
         blue_sign: ${{secrets.blue_sign}}
         tencentKey: ${{secrets.tencentKey}}
       run: python actionVersion.py
+
