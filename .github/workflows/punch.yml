@@ -3,7 +3,7 @@ name: 我在校园打卡
 on:
   workflow_dispatch:
   schedule:
-     - cron:  '59 13 * * *' # 默认在每天 UTC 14:00 （北京时间 21:00）执行
+     - cron:  '01 14 * * *' # 默认在每天 UTC 14:00 （北京时间 21:00）执行
 
 jobs:
   User01:
@@ -63,7 +63,7 @@ jobs:
         blue_sign: ${{secrets.blue_sign}}
         tencentKey: ${{secrets.tencentKey}}
       run: python actionVersion.py
-      
+
   User03:
     runs-on: ubuntu-latest
     environment: CONFIG_03
@@ -92,4 +92,3 @@ jobs:
         blue_sign: ${{secrets.blue_sign}}
         tencentKey: ${{secrets.tencentKey}}
       run: python actionVersion.py
-
